@@ -1,6 +1,6 @@
 import time
 import turtle as tu
-import tkinter as tk
+from tkinter import *
 from math import *
 
 def rangevar(var, low, high):
@@ -10,7 +10,17 @@ def rangevar(var, low, high):
         var = high
     return var
 
+def create_canvas():
+    global t
+    canvas = Canvas(master = root, width = 600, height = 600)
+    canvas.grid(padx = 2, pady = 0, row = 0, column = 0, rowspan = 20, columnspan = 20, sticky = 'nsew')
+    t = tu.RawTurtle(canvas)
+    t.speed(10)
+    t.pensize(1)
+    draw_coords()
+
 def draw_coords():
+
     t.pensize(2)
 
     t.goto(0, 320)
@@ -35,71 +45,91 @@ def draw_coords():
 
     t.pensize(1)
     for i in range(6):
-        t.goto(0, i * 60)
-        t.goto(5, i * 60)
-        t.goto(-5, i * 60)
-        t.goto(0, i * 60)
+        t.goto(0, i * 50)
+        t.goto(5, i * 50)
+        t.goto(-5, i * 50)
+        t.goto(0, i * 50)
     t.goto(0, 0)
     for i in range(6):
-        t.goto(0, -i * 60)
-        t.goto(5, -i * 60)
-        t.goto(-5, -i * 60)
-        t.goto(0, -i * 60)
+        t.goto(0, -i * 50)
+        t.goto(5, -i * 50)
+        t.goto(-5, -i * 50)
+        t.goto(0, -i * 50)
     t.goto(0, 0)
     for i in range(6):
-        t.goto(i * 60, 0)
-        t.goto(i * 60, 5)
-        t.goto(i * 60, -5)
-        t.goto(i * 60, 0)
+        t.goto(i * 50, 0)
+        t.goto(i * 50, 5)
+        t.goto(i * 50, -5)
+        t.goto(i * 50, 0)
     t.goto(0, 0)
     for i in range(6):
-        t.goto(-i * 60, 0)
-        t.goto(-i * 60, 5)
-        t.goto(-i * 60, -5)
-        t.goto(-i * 60, 0)
+        t.goto(-i * 50, 0)
+        t.goto(-i * 50, 5)
+        t.goto(-i * 50, -5)
+        t.goto(-i * 50, 0)
 
     t.penup()
 
-def graph(f, start = -5, end = 5):
-    start = rangevar(start, -5, 5)
-    end = rangevar(end, -5, 5)
-    t.penup()
-    for j in [x * 0.1 for x in range(start * 12, end * 12)]:
-        try:
-            expr = round(eval(''.join([i if i != "x" else str(j) for i in f])) * 50)
-            t.goto(j * 50, rangevar(expr, -3000, 3000))
-            t.pendown()
-            if not expr in range(-500, 500):
-                t.penup()
-            print("X: ", j, "; Y: ", eval(''.join([i if i != "x" else str(j) for i in f])))
-        except ValueError:
-            print("ValueError")
-        except SyntaxError:
-            print("SyntaxError")
-        except ZeroDivisionError:
-            print("ZeroDivisionError")
+def graph():
+    print("Plotting started")
+    for i in range(1, 11):
+        exec("global f; f = graphfield" + str(i) + ".get()")
+        print(f)
+        if f != "":
+            start = -5
+            end = 5
+            start = rangevar(start, -5, 5)
+            end = rangevar(end, -5, 5)
             t.penup()
-    print("Finished!")
-    t.penup()
-    t.goto(0, 0)
+            for j in [x * 0.1 for x in range(start * 12, end * 12)]:
+                try:
+                    expr = round(eval(''.join([i if i != "x" else str(j) for i in f])) * 50)
+                    t.goto(j * 50, rangevar(expr, -3000, 3000))
+                    t.pendown()
+                    if not expr in range(-500, 500):
+                        t.penup()
+                    print("X: ", j, "; Y: ", eval(''.join([i if i != "x" else str(j) for i in f])))
+                except ValueError:
+                    print("ValueError")
+                except SyntaxError:
+                    print("SyntaxError")
+                except ZeroDivisionError:
+                    print("ZeroDivisionError")
+                    t.penup()
+            print("Finished!")
+            t.penup()
+        t.goto(0, 0)
 
-root = tk.Tk()
-root.geometry("900x820")
+root = Tk()
+root.geometry("900x900")
 root.title("GraphDraw")
-canvas = tk.Canvas(master = root, width = 700, height = 700)
-canvas.grid(padx = 2, pady = 0, row=  0, column = 0, rowspan = 10, columnspan = 10, sticky = 'nsew')
-t = tu.RawTurtle(canvas)
+create_canvas()
 
-t.speed(10)
+graphfield1 = Entry(root, width = 40)
+graphfield1.grid(padx = 5, pady = 5, row = 0, column = 21, rowspan = 1, columnspan = 3, sticky = 'nsew')
+graphfield2 = Entry(root, width = 40)
+graphfield2.grid(padx = 5, pady = 5, row = 1, column = 21, rowspan = 1, columnspan = 3, sticky = 'nsew')
+graphfield3 = Entry(root, width = 40)
+graphfield3.grid(padx = 5, pady = 5, row = 2, column = 21, rowspan = 1, columnspan = 3, sticky = 'nsew')
+graphfield4 = Entry(root, width = 40)
+graphfield4.grid(padx = 5, pady = 5, row = 3, column = 21, rowspan = 1, columnspan = 3, sticky = 'nsew')
+graphfield5 = Entry(root, width = 40)
+graphfield5.grid(padx = 5, pady = 5, row = 4, column = 21, rowspan = 1, columnspan = 3, sticky = 'nsew')
+graphfield6 = Entry(root, width = 40)
+graphfield6.grid(padx = 5, pady = 5, row = 5, column = 21, rowspan = 1, columnspan = 3, sticky = 'nsew')
+graphfield7 = Entry(root, width = 40)
+graphfield7.grid(padx = 5, pady = 5, row = 6, column = 21, rowspan = 1, columnspan = 3, sticky = 'nsew')
+graphfield8 = Entry(root, width = 40)
+graphfield8.grid(padx = 5, pady = 5, row = 7, column = 21, rowspan = 1, columnspan = 3, sticky = 'nsew')
+graphfield9 = Entry(root, width = 40)
+graphfield9.grid(padx = 5, pady = 5, row = 8, column = 21, rowspan = 1, columnspan = 3, sticky = 'nsew')
+graphfield10 = Entry(root, width = 40)
+graphfield10.grid(padx = 5, pady = 5, row = 9, column = 21, rowspan = 1, columnspan = 3, sticky = 'nsew')
 
-draw_coords()
+buildbtn = Button(root, width = 11, height = 2, text = "Build graphs", command = graph)
+buildbtn.grid(padx = 5, pady = 5, row = 10, column = 21, rowspan = 1, columnspan = 1, sticky = 'nsew')
 
-t.pensize(1)
-
-#Сердечко
-graph("sqrt(1 - (-x - 1) ** 2)")
-graph("sqrt(1 - (x - 1) ** 2)")
-graph("acos(1 + x) - 3.141592653589")
-graph("acos(1 - x) - 3.141592653589")
+clearbtn = Button(root, width = 11, height = 2, text = "Clear graphs", command = create_canvas)
+clearbtn.grid(padx = 5, pady = 5, row = 12, column = 21, rowspan = 1, columnspan = 1, sticky = 'nsew')
 
 root.mainloop()
