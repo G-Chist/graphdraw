@@ -231,12 +231,4 @@ clearbtn.grid(padx = 5, pady = 5, row = 12, column = 21, rowspan = 1, columnspan
 
 create_canvas()
 
-"""
-#Сердечко
-graph("sqrt(1 - (-x - 1) ** 2)")
-graph("sqrt(1 - (x - 1) ** 2)")
-graph("acos(1 + x) - 3.141592653589")
-graph("acos(1 - x) - 3.141592653589")
-"""
-
 root.mainloop()
